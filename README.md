@@ -2,6 +2,9 @@
 
 This is an brief introduction to Wasserstein-Distance, including its formulation, computation and application.
 
+[toc]
+
+
 ### Tutorials
 1. [Optimal Transport for Applied Mathematicians](http://math.univ-lyon1.fr/~santambrogio/OTAM-cvgmt.pdf)
 2. [Optimal Transport for Data Analysis](https://www.uni-muenster.de/AMM/num/Vorlesungen/OptTransp_SS17/ss2017_OTDataAnalysis_2017-05-02.pdf)
@@ -10,7 +13,7 @@ This is an brief introduction to Wasserstein-Distance, including its formulation
 
 ### Introduction
 We will start from some some intuitive examples.
-#### Existing metrics for evaluating distance between distributions
+#### Existing metrics
 1. metrics
    1. KL divergence: $D_{\mathrm{KL}}(P \| Q)=-\sum_{i} P(i) \ln \frac{Q(i)}{P(i)}$
    2. JS divergence: $D_{\mathrm{JS}}(P, Q)=\frac{1}{2}\left(D_{\mathrm{KL}}\left(P \| \frac{P+Q}{2}\right)+D_{\mathrm{KL}}\left(Q \| \frac{P+Q}{2}\right)\right)$
@@ -53,7 +56,7 @@ $$f_{i}+g_{j} \leq c_{i j} \quad \text { for } i=1,2, \ldots, m, \text { for } j
 
 
 ### Formulation
-1. Wasserstein distance (Kantorovich formulation)
+#### Wasserstein distance (Kantorovich formulation)
    1. view it as a continuous version of transportation problem
 ![](2021-11-22-19-52-57.png)
 Minimize $\mathcal{W}[p, q]=\inf _{\gamma \in \Pi[p, q]} \iint \gamma( {x},  {y}) c( {x},  {y}) d  {x} d  {y}$
@@ -68,7 +71,7 @@ $$
       1. any norm, $\| {x}- {y}\|_{1}, \;\| {x}- {y}\|_{2}, \;\| {x}- {y}\|_{2}^{2}$
    2. joint distribution $\gamma(x,y)$: 
       1. with marginal distribution $\gamma(x)=p(x),\gamma(y)=q(y)$
-2. Optimal transport and Wasserstein distance
+#### Optimal transport and Wasserstein distance
    1. Optimal transport (Monge formulation)
 ![](2021-11-22-19-56-38.png)
 $$\begin{array}{c}
@@ -77,8 +80,8 @@ q=T(p)
 \end{array}$$
       1. transport map: $q(y)=T(p(x))$
          1. non-linear constraint
-3. Several dual formulations
-   1. Kantorovich-Rubinstein Duality
+#### Several dual formulations
+##### Kantorovich-Rubinstein Duality
 $$\mathcal{W}[p, q]=\max _{f, g}\left\{\int[p(x) f( {x})+q( {x}) g( {x})] d x \mid f( {x})+g( {y}) \leq c( {x},  {y})\right\}$$
       1. primal-dual optimality condition 
          1. $f( {x})+g( {y})=c( {x},  {y})$
@@ -95,7 +98,7 @@ $$\begin{align}
 =&\underbrace{\iint[f(x)+g(y)] \gamma(x, y) d x d y}_{\text{marginal distribution}}\\
 =&\underbrace{\iint \gamma( {x},  {y}) c( {x},  {y}) d  {x} d  {y}}_{f( {x})+g( {y})=c( {x},  {y})}\\
 &\rightarrow \text{primal}=\text{dual} \text{ when reaching optimality}\end{align}$$
-   2. Lipschitz constrained formulation
+##### Lipschitz constrained formulation
    $$\mathcal{W}[p, q]=\max _{f}\left\{\int[p(x) f(\boldsymbol{x})-q(\boldsymbol{x}) f(\boldsymbol{x})] d x \mid\|f\|_{L} \leq 1\right\}$$
       1. consider the optimality condition when $x=y$
          1. $f(y)+g(y)=c(y,y)=0\rightarrow g(y)=-f(y)$
@@ -104,7 +107,7 @@ $$\begin{align}
          2. constraints: $\|f\|_{L} \leq 1$
             1. $f(x)-f(y) \leq c(x, y)$ and $f(y)-f(x) \leq c(y, x)$
             2. $\|f\|_{L}=\frac{|f(x)-f(y)|}{c(x, y)} \leq 1$
-   1. Unconstrained formulation
+##### Unconstrained formulation
 $$\mathcal{W}[p, q]=\max _{f} \int f(x) d p(x)+\int \min _{x}[c(x, y)-f(x)] d q(y)$$
       1. C-transform:
 For $f \in C(\Omega)$ define its $c$-transform $f^{c} \in C(\Omega)$ by
@@ -135,7 +138,7 @@ $$
 
                when $f(x)+g(y)=c(x,y)$, $c(x,y)\leq f(x)+f^{c}(y)\geq c(x,y)$
                Therefore $f(x)+f^{c}(y)=c(x,y)$ and reaches optimality.
-   4. Quadratic cost function
+##### Quadratic cost function
       1. quadratic cost function: $c(x,y)=\frac{1}{2}\|x-y\|^2$
       2. The C-transform can be simplified as:
 $$
@@ -149,7 +152,7 @@ $$
       1. Brenier theorem: 
          1. Under quadratic case, optimal transport map $T(x)$ is equivalent with transport plan $\gamma(x,y)$
       $$T(x)=x-\nabla f(x)=x-(x-\nabla \phi(x))=\nabla \phi(x)$$
-   5. Convex formulation
+##### Convex formulation
       1. under quadratic case: 
 $$\begin{array}{l}
 f(x)+g(y) \leq \frac{1}{2}\|x-y\|_{2}^{2} \Longleftrightarrow \\
