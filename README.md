@@ -189,7 +189,7 @@ $$\begin{array}{l}
 ### Application
 
 
-
+<!-- 
 
 
 ### Computation
@@ -238,7 +238,7 @@ $$
 1. [Optimal transport for Gaussian mixture models](https://arxiv.org/pdf/1710.07876.pdf)
 
 #### Empirical study
-1. Do Neural Optimal Transport Solvers Work? A Continuous Wasserstein-2 Benchmark
+1. Do Neural Optimal Transport Solvers Work? A Continuous Wasserstein-2 Benchmark -->
 
 
 
