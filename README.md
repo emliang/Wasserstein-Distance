@@ -99,48 +99,48 @@ $$\begin{align}
 =&\underbrace{\iint \gamma( {x},  {y}) c( {x},  {y}) d  {x} d  {y}}_{f( {x})+g( {y})=c( {x},  {y})}\\
 &\rightarrow \text{primal}=\text{dual} \text{ when reaching optimality}\end{align}$$
 ##### Lipschitz constrained formulation
-   $$\mathcal{W}[p, q]=\max _{f}\left\{\int[p(x) f(\boldsymbol{x})-q(\boldsymbol{x}) f(\boldsymbol{x})] d x \mid\|f\|_{L} \leq 1\right\}$$
-      1. consider the optimality condition when $x=y$
-         1. $f(y)+g(y)=c(y,y)=0\rightarrow g(y)=-f(y)$
-      2. take $g(y)=-f(y)$ into the $\mathcal{W}[p, q]$
-         1. objective function: $\max _{f}\left\{\int[p(x) f(\boldsymbol{x})-q(\boldsymbol{x}) f(\boldsymbol{x})] d x \right\}$
-         2. constraints: $\|f\|_{L} \leq 1$
-            1. $f(x)-f(y) \leq c(x, y)$ and $f(y)-f(x) \leq c(y, x)$
-            2. $\|f\|_{L}=\frac{|f(x)-f(y)|}{c(x, y)} \leq 1$
+$$\mathcal{W}[p, q]=\max _{f}\left\{\int[p(x) f(\boldsymbol{x})-q(\boldsymbol{x}) f(\boldsymbol{x})] d x \mid\|f\|_{L} \leq 1\right\}$$
+   1. consider the optimality condition when $x=y$
+      1. $f(y)+g(y)=c(y,y)=0\rightarrow g(y)=-f(y)$
+   2. take $g(y)=-f(y)$ into the $\mathcal{W}[p, q]$
+      1. objective function: $\max _{f}\left\{\int[p(x) f(\boldsymbol{x})-q(\boldsymbol{x}) f(\boldsymbol{x})] d x \right\}$
+      2. constraints: $\|f\|_{L} \leq 1$
+         1. $f(x)-f(y) \leq c(x, y)$ and $f(y)-f(x) \leq c(y, x)$
+         2. $\|f\|_{L}=\frac{|f(x)-f(y)|}{c(x, y)} \leq 1$
 ##### Unconstrained formulation
 $$\mathcal{W}[p, q]=\max _{f} \int f(x) d p(x)+\int \min _{x}[c(x, y)-f(x)] d q(y)$$
-      1. C-transform:
-For $f \in C(\Omega)$ define its $c$-transform $f^{c} \in C(\Omega)$ by
+1. C-transform:
+   1. For $f \in C(\Omega)$ define its $c$-transform $f^{c} \in C(\Omega)$ by
 $$
 f^{c}(y)=\inf \{c(x, y)-f(x) \mid x \in \Omega\}
 $$
-and its $\bar{c}$-transform $g^{\bar{c}} \in C(\Omega)$ by
+   2. and its $\bar{c}$-transform $g^{\bar{c}} \in C(\Omega)$ by
 $$
 g^{\bar{c}}(x)=\inf \{c(x, y)-g(y) \mid y \in \Omega\}
 $$
-         1. $f^{c\hat{c}}(x)\ge f(x)$, "$=$" holds when $f$ is concave
-      2. Consider $g(y)$ is the C-transform of $f(x)$
-         1. $f^{c}(y)=\inf_x \{c(x, y)-f(x) \}$
-         2. Proof of such a transform will not affect the optimality
-            1. prove $f(x)$ and $f^c(y)$ satisfy the constraint
-               $$\begin{align}
-               & f(x)+\inf \{c(x, y)-f(x)\}\\
-               \leq &  f(x)+c(x, y)-f(x)\\
-               =   & c(x, y) 
-               \end{align}$$
-               The constraint is always be satisfied under C-transform
-            2. prove $f(x)$ and $f^c(y)$ reach optimality condition
-               $$\begin{align}
-               & f(x)=g^{c}(x)\\
-               \rightarrow &  f^{c}(y)=g^{c \hat{c}}(y) \geq g(y)\\
-               \rightarrow & f(x)+f^{c}(y) \geq f(x)+g(y)\\
-               \end{align}$$
+   3. $f^{c\hat{c}}(x)\ge f(x)$, "$=$" holds when $f$ is concave
+1. Consider $g(y)$ is the C-transform of $f(x)$
+   1. $f^{c}(y)=\inf_x \{c(x, y)-f(x) \}$
+   2. Proof of such a transform will not affect the optimality
+      1. prove $f(x)$ and $f^c(y)$ satisfy the constraint
+         $$\begin{align}
+         & f(x)+\inf \{c(x, y)-f(x)\}\\
+         \leq &  f(x)+c(x, y)-f(x)\\
+         =   & c(x, y) 
+         \end{align}$$
+         The constraint is always be satisfied under C-transform
+      2. prove $f(x)$ and $f^c(y)$ reach optimality condition
+         $$\begin{align}
+         & f(x)=g^{c}(x)\\
+         \rightarrow &  f^{c}(y)=g^{c \hat{c}}(y) \geq g(y)\\
+         \rightarrow & f(x)+f^{c}(y) \geq f(x)+g(y)\\
+         \end{align}$$
 
-               when $f(x)+g(y)=c(x,y)$, $c(x,y)\leq f(x)+f^{c}(y)\geq c(x,y)$
-               Therefore $f(x)+f^{c}(y)=c(x,y)$ and reaches optimality.
+         when $f(x)+g(y)=c(x,y)$, $c(x,y)\leq f(x)+f^{c}(y)\geq c(x,y)$
+         Therefore $f(x)+f^{c}(y)=c(x,y)$ and reaches optimality.
 ##### Quadratic cost function
-      1. quadratic cost function: $c(x,y)=\frac{1}{2}\|x-y\|^2$
-      2. The C-transform can be simplified as:
+1. quadratic cost function: $c(x,y)=\frac{1}{2}\|x-y\|^2$
+2. The C-transform can be simplified as:
 $$
 \begin{aligned}
 f(x) &=\inf_y \left\{\frac{1}{2}\|x-y\|^{2}-g(y) \right\} \\
@@ -148,42 +148,46 @@ f(x) &=\inf_y \left\{\frac{1}{2}\|x-y\|^{2}-g(y) \right\} \\
 &=\frac{1}{2}\|x\|^{2}-\underbrace{\sup_y \left\{\langle x, y\rangle-\left[\frac{1}{2}\|y\|^{2}-g(y)\right] \right\}}_{:=\phi(x): \operatorname{convex}}
 \end{aligned}
 $$
-         1. $\phi(x)$ is the convex conjugate of $\frac{1}{2}\|y\|^{2}-g(y)$
-      1. Brenier theorem: 
-         1. Under quadratic case, optimal transport map $T(x)$ is equivalent with transport plan $\gamma(x,y)$
-      $$T(x)=x-\nabla f(x)=x-(x-\nabla \phi(x))=\nabla \phi(x)$$
+   1. $\phi(x)$ is the convex conjugate of $\frac{1}{2}\|y\|^{2}-g(y)$
+1. Brenier theorem: 
+   1. Under quadratic case, optimal transport map $T(x)$ is equivalent with transport plan $\gamma(x,y)$
+$$T(x)=x-\nabla f(x)=x-(x-\nabla \phi(x))=\nabla \phi(x)$$
 ##### Convex formulation
-      1. under quadratic case: 
+$$\begin{array}{l}
+\mathcal{W}[p, q]=C_{p, q}-\min\limits_{f'\in \text{cvx}}\max\limits_{g'\in \text{cvx}} \left\{\mathbb{E}_{p}[f'(x)]+\mathbb{E}_{q}[f^{'*}(y)] \right\}\\
+\end{array}$$
+1. under quadratic case: 
 $$\begin{array}{l}
 f(x)+g(y) \leq \frac{1}{2}\|x-y\|_{2}^{2} \Longleftrightarrow \\
 {\left[\frac{1}{2}\|x\|_{2}^{2}-f(x)\right]+\left[\frac{1}{2}\|y\|_{2}^{2}-g(y)\right] \geq \langle x, y\rangle}
 \end{array}$$
-      2. define:
-         1. $f'(x)=\frac{1}{2}\|x\|_{2}^{2}-f(x)$
-         2. $g'(y)=\frac{1}{2}\|y\|_{2}^{2}-g(y)$
-      3. The objective function becomes:
+1. define:
+   1. $f'(x)=\frac{1}{2}\|x\|_{2}^{2}-f(x)$
+   2. $g'(y)=\frac{1}{2}\|y\|_{2}^{2}-g(y)$
+2. The objective function becomes:
 $$\begin{array}{l}
 \mathcal{W}[p, q]=C_{p, q}-\min_{f',g'} \left\{\mathbb{E}_{p}[f'(x)]+\mathbb{E}_{q}[g'(y)]\mid f'(x)+g'(y)\ge \langle x, y\rangle \right\}\\
 C_{p, q}=\frac{1}{2} \mathbb{E}_p[\|X\|_{2}^{2}]+ \mathbb{E}_q[ \|Y\|_{2}^{2}]
 \end{array}$$
-      4. apply the conjugate transformation
-         1. $g'(y)=f^{'*}(y)=\sup_x \left\{\langle x, y\rangle-\underbrace{\left[\frac{1}{2}\|x\|^{2}-f(x)\right]}_{f'(x)} \right\}$ 
-      5. unconstrained optimization
+4. apply the conjugate transformation
+   1. $g'(y)=f^{'*}(y)=\sup_x \left\{\langle x, y\rangle-\underbrace{\left[\frac{1}{2}\|x\|^{2}-f(x)\right]}_{f'(x)} \right\}$ 
+5. unconstrained optimization
 $$\begin{array}{l}
 \mathcal{W}[p, q]=C_{p, q}-\min_{f',g'} \left\{\mathbb{E}_{p}[f'(x)]+\mathbb{E}_{q}[f^{'*}(y)] \right\}\\
 \end{array}$$
-         1. similar proof as C-transform
-            1. constraint:
-               1. $f'(x)+f^{'*}(y)\ge \langle x, y\rangle$
-            2. optimality
-               1. $f^{**}\leq f$, "$=$" holds when $f$ is convex
-               2. $f'$ and $g'$ are convex
-      1. According to the Brenier theorem, when reach optimality
-         1. $\nabla g'(y)= T(y)$ is the optimal transport map
-         2. $f^{'*}(y) = \sup_x \left\{\langle x, y\rangle-{\left[\frac{1}{2}\|x\|^{2}-f(x)\right]} \right\} = \langle T(y), y\rangle-{\left[\frac{1}{2}\|T(y)\|^{2}-f(T(y))\right]} $
-      2. convex formulation:
+   1. similar proof as C-transform
+      1. constraint:
+         1. $f'(x)+f^{'*}(y)\ge \langle x, y\rangle$
+      2. optimality
+         1. $f^{**}\leq f$, "$=$" holds when $f$ is convex
+         2. $f'$ and $g'$ are convex
+6. According to the Brenier theorem, when reach optimality
+   1. $x=\nabla g'(y)= T(y)$ is the optimal transport map
+   2. $f^{'*}(y) = \sup_x \left\{\langle x, y\rangle-{\left[\frac{1}{2}\|x\|^{2}-f(x)\right]} \right\}$
+   3. $f^{*'}(y)= \langle T(y), y\rangle-{\left[\frac{1}{2}\|T(y)\|^{2}-f'(T(y))\right]}$
+7. convex formulation:
    $$\begin{array}{l}
-\mathcal{W}[p, q]=C_{p, q}-\min_{f'\in \text{cvx}}\max_{g'\in \text{cvx}} \left\{\mathbb{E}_{p}[f'(x)]+\mathbb{E}_{q}[f^{'*}(y)] \right\}\\
+\mathcal{W}[p, q]=C_{p, q}-\min\limits_{f'\in \text{cvx}}\max\limits_{g'\in \text{cvx}} \left\{\mathbb{E}_{p}[f'(x)]+\mathbb{E}_{q}[f^{'*}(y)] \right\}\\
 \end{array}$$
 
 
