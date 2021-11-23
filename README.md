@@ -1,8 +1,38 @@
 # Wasserstein-Distance
 
 This is an brief introduction to Wasserstein-Distance, including its formulation, computation and application.
+<font size=2>
 
-[toc]
+- [Wasserstein-Distance](#wasserstein-distance)
+    - [Tutorials](#tutorials)
+    - [Introduction](#introduction)
+      - [Existing metrics](#existing-metrics)
+      - [Transportation problem](#transportation-problem)
+    - [Formulation](#formulation)
+      - [Wasserstein distance (Kantorovich formulation)](#wasserstein-distance-kantorovich-formulation)
+      - [Optimal transport and Wasserstein distance](#optimal-transport-and-wasserstein-distance)
+      - [Several dual formulations](#several-dual-formulations)
+        - [Kantorovich-Rubinstein Duality](#kantorovich-rubinstein-duality)
+        - [Lipschitz constrained formulation](#lipschitz-constrained-formulation)
+        - [Unconstrained formulation](#unconstrained-formulation)
+        - [Quadratic cost function](#quadratic-cost-function)
+        - [Convex formulation](#convex-formulation)
+    - [Computation](#computation)
+      - [Close form](#close-form)
+      - [Discrete case](#discrete-case)
+        - [Linear programming](#linear-programming)
+        - [Sinkhorn iteration](#sinkhorn-iteration)
+        - [ADMM](#admm)
+      - [Continue case](#continue-case)
+        - [Two-step computation](#two-step-computation)
+        - [Penalty term](#penalty-term)
+        - [Lipschitz constraint](#lipschitz-constraint)
+        - [Unconstrained optimization](#unconstrained-optimization)
+        - [Convex formulation](#convex-formulation-1)
+        - [Gaussian mixture model](#gaussian-mixture-model)
+      - [Empirical study](#empirical-study)
+    - [Application](#application)
+
 
 
 ### Tutorials
@@ -186,15 +216,89 @@ $$\begin{array}{l}
    2. $f^{'*}(y) = \sup_x \left\{\langle x, y\rangle-{\left[\frac{1}{2}\|x\|^{2}-f(x)\right]} \right\}$
    3. $f^{*'}(y)= \langle T(y), y\rangle-{\left[\frac{1}{2}\|T(y)\|^{2}-f'(T(y))\right]}$
 7. convex formulation:
-   $$\begin{array}{l}
+$$\begin{array}{l}
 \mathcal{W}[p, q]=C_{p, q}-\min\limits_{f'\in \text{cvx}}\max\limits_{g'\in \text{cvx}} \left\{\mathbb{E}_{p}[f'(x)]+\mathbb{E}_{q}[f^{'*}(y)] \right\}\\
+\mathcal{W}[p, q]=C_{p, q}-\min\limits_{f'\in \text{cvx}}\max\limits_{g'\in \text{cvx}} \left\{\mathbb{E}_{p}[f'(\nabla g'(y))]+\mathbb{E}_{q}[\langle \nabla g'(y), y\rangle-f'(\nabla g'(y))] \right\}\\
 \end{array}$$
 
 
 ### Computation
 
+#### Close form
+1. Gaussian distribution under quadratic cost
+   1. Distributions: $ \mathcal{N}_{1}\left(\mu_{1}, \Sigma_{1}\right) $, $ \mathcal{N}_{2}\left(\mu_{2}, \Sigma_{2}\right)$
+   2. Transport map: $x \longrightarrow \mu_{2}+A\left(x-\mu_{1}\right)$
+         1. $A=\Sigma_{1}^{-1 / 2}\left(\Sigma_{1}^{1 / 2} \Sigma_{2} \Sigma_{1}^{1 / 2}\right) \Sigma_{1}^{-1 / 2}$
+   3. W-distance: 
+$$
+W_{2}\left(\mathcal{N}_{1}, \mathcal{N}_{2}\right)=\left\|\mu_{1}-\mu_{2}\right\|_{2}^{2}+\operatorname{Tr}\left(\Sigma_{1}+\Sigma_{2}-2\left(\Sigma_{1}^{1 / 2} \Sigma_{2} \Sigma_{1}^{1 / 2}\right)^{1 / 2}\right)
+$$
+
+#### Discrete case
+
+##### Linear programming
+Maximize $\quad \sum_{i=1}^{n} a_{i} f_{i}+\sum_{i=1}^{n} b_{i} g_{i}$
+Subject to:
+$$
+f_{i}+g_{j} \leq c_{i j} \quad \text { for } i=1,2, \ldots, n, \text { for } j=1,2, \ldots, n
+$$
+1. solve in dual form
+2. polynomial complexity
+3. not scalable when n is large
+
+##### Sinkhorn iteration
+Minimize $\quad \sum_{i=1}^{n} \sum_{j=1}^{n} c_{i j} x_{i j}-\lambda^{-1} H(x)$
+Subject to:
+$$
+\begin{array}{l}
+\sum_{j=1}^{n} x_{i j}=p_{i} \quad \text { for } i=1,2, \ldots, n \\
+\sum_{i=1}^{n} x_{i j}=q_{j} \quad \text { for } j=1,2, \ldots, n \\
+x_{i j} \geq 0 \quad \text { for } i, j=1,2, \ldots, n
+\end{array}
+$$
+1. entropy regularization: $H(x)=-x\log x$
+   1. strongly convex
+   2. link primal and dual solution
+2. Optimality condition
+   1. $\nabla_x L(x,f,g) = 0 = c_{ij}+\lambda^{-1}(1+\log x)-f_i-g_j$
+   2. $x_{ij}=e^{\lambda f_i} e^{-c_{ij}\lambda-1}e^{\lambda g_j}=v_iK_{ij}u_j$
+   3. constraints
+$$\begin{array}{ll}
+\sum_{j=1}^{n} x_{i j}=v_i\sum_{j=1}^n K_{ij}u_j =p_{i} & \text { for } i=1,2, \ldots, n \\
+\sum_{i=1}^{n} x_{i j}=u_j\sum_{i=1}^n v_iK_{ij}=q_{j} & \text { for } j=1,2, \ldots, n
+\end{array}$$
+1. Matrix normalization/balancing
+   1. find a matrix has row and column constraints
+   2. double stochastic matrix
+2. Sinkhorn-Knopp algorithm
+$$
+\begin{aligned}
+v_{i}^{n+1} &=\frac{p_{i}}{\sum_{j} K_{i j} u_{j}^{n}} \\
+u_{j}^{n+1} &=\frac{p_{i}}{\sum_{i} K_{i j} v_{i}^{n+1}}
+\end{aligned}
+$$
+3. limited numerical accuracy when $\lambda$ is large
+##### ADMM 
+
+#### Continue case
+
+##### Two-step computation
+##### Penalty term
+##### Lipschitz constraint
+##### Unconstrained optimization
+##### Convex formulation
+##### Gaussian mixture model
+
+#### Empirical study
+
+ 
+
+ 
+
+
 ### Application
 
+</font>
 
 <!-- 
 
