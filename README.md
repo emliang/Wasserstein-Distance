@@ -1,5 +1,4 @@
 # Wasserstein-Distance
-[link](htmlpreview.github.io/?https://github.com/emliang/Wasserstein-Distance)
 This is an brief introduction to Wasserstein-Distance, including its formulation, computation and application.
 <font size=2>
 
