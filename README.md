@@ -58,7 +58,7 @@ $$f_{i}+g_{j} \leq c_{i j} \quad \text { for } i=1,2, \ldots, m, \text { for } j
 ### Formulation
 #### Wasserstein distance (Kantorovich formulation)
    1. view it as a continuous version of transportation problem
-![](2021-11-22-19-52-57.png)
+![](/pic/2021-11-22-19-52-57.png)
 Minimize $\mathcal{W}[p, q]=\inf _{\gamma \in \Pi[p, q]} \iint \gamma( {x},  {y}) c( {x},  {y}) d  {x} d  {y}$
 Subject to:
 $$
@@ -73,7 +73,7 @@ $$
       1. with marginal distribution $\gamma(x)=p(x),\gamma(y)=q(y)$
 #### Optimal transport and Wasserstein distance
    1. Optimal transport (Monge formulation)
-![](2021-11-22-19-56-38.png)
+![](/pic/2021-11-22-19-56-38.png)
 $$\begin{array}{c}
 C_{M}(T)=\int_{\Omega} c(x, T(x)) p(x) \mathrm{d} \\
 q=T(p)
